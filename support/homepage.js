@@ -41,12 +41,11 @@ var HomePage=function(){
     };
 
     this.logout=function(){
-        element(by.css(this.logoProfile)).click();
-        element(by.linkText(this.logoutButton)).click();
-    }
-
-
-   
+        element(by.css(this.logoProfile)).click()
+        .then (function (){
+        return element(by.linkText(this.logoutButton)).click();
+        }        
+    }  
 };
    inherit(HomePage,Menu);
 
