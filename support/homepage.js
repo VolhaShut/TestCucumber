@@ -41,10 +41,8 @@ var HomePage=function(){
     };
 
     this.logout=function(){
-        element(by.css(this.logoProfile)).click()
-        .then (function (){
+        element(by.css(this.logoProfile)).click();
         return element(by.linkText(this.logoutButton)).click();
-        }        
     }  
 };
    inherit(HomePage,Menu);
