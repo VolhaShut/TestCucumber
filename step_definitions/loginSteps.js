@@ -1,41 +1,42 @@
-//var loginPage=require('../support/login.js');
-var homePage=require('../support/homepage.js');
-
 var steps=function(){
-
-
-    // this.When(/^I am on website page$/,function (){
-    //         browser.ignoreSynchronization=true;
-    //         browser.get('http://habrahabr.ru');
-    //     });
-
     
-    // this.Then(/^I click on  '(.+)' link$/,function(field){
-    //         element(by.id(field)).click(); 
-    //  Given I am on website page
-    // When I click on Login button
-    // Then I login using valid creadentials
-             
-    // });
-    
-    this.Given('^I am on website page$', function(){
-        
-        return homePage.getPage();
-       
-    });
-    this.When('^I click on Login button$',function(){
-        return homePage.navigate();
-    });
-    // this.Then(/^I enter in '(.+)' java script$/,function(field){
-    //     element(by.id(field)).click(); 
-    //     var EC = protractor.ExpectedConditions;
+    this.setDefaultTimeout(45000);
+    var url='http://habrahabr.ru';
 
+    this.Given(/^I am on website page$/, function(){    
+        return this.homePage.getPage(url);
+    });
+
+    this.When(/^I click on Login button$/,function(){  
+        return this.homePage.gotoLogin();
+    });
+
+    this.Then(/^I enter '(.+)' and '(.+)' correctly$/,function(email,password){
+         return this.loginPage.login(email,password);
+     });
+
+    this.Then(/^I click to profile button and go to the profile page$/,function(){
+        return this.homePage.gotoProfile();
+    });
+    this.Then(/^I check a username$/,function(){
+          return this.profile.getUserName()
+              .then(function(user){
+                 return expect(user).to.equal('@JustTest');
+           });    
+    });
+    this.Then(/^I set up avatar in profile$/, function(){
+        var _this=this;
+        return _this.profile.changeProfile()
+        .then (function(){
+            return _this.profile.changeAvatar();
+        }) 
         
-    //     element(by.id('search-form-field')).sendKeys('java script');
-    //     browser.actions().sendKeys(protractor.Key.ENTER).perform();
-    //     // element(by.id(field)).sendKeys('js');
-    //     // element(by.id(field)).sendKeys('java');
-    //     browser.sleep(10000);
-    //     });
+    })
+    this.Then(/^I go to publications page$/,function(){
+        browser.sleep(2000);
+        return this.homePage.gotoPublications();
+    })
+    
+
 };
 module.exports=steps;

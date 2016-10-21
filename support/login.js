@@ -1,13 +1,14 @@
 var LoginPage=function(){
-    this.email=browser.findElement(by.id('email_filed'));
-    this.password=browser.findElement(by.name('password'));
-    this.loginButton=browser.findElement(by.css('button.big.green.wide'));
+    this.email=element(by.name('email'));
+    this.password=element(by.name('password'));
+    this.loginButton=element(by.name('go'));
 };
 
 LoginPage.prototype.login=function(email,password){
     this.email.sendKeys(email);
     this.password.sendKeys(password);
-    this.loginButton=clock();
+    this.loginButton.click();
+    browser.sleep(2000);
 }
 
 module.exports=LoginPage;

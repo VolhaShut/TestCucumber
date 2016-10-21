@@ -6,9 +6,17 @@ Feature: Habrahabr
   Scenario: Visit page
     Given I am on website page
     When I click on Login button
-    #Then I click on  'search-form-btn' link
-    #Then I enter in 'search-form-btn' java script
-    #Then I'm going to login page
-    #Then I enter correct login and password
+    Then I enter 'testingcucumber@gmail.com' and 'Testing2016' correctly
+    Then I click to profile button and go to the profile page
+    Then I check a username
+    Then I set up avatar in profile
+    Then I go to publications page
+
+  Scenario: Write comment
+    Given I am on publications page
+    When I search 'javascript' in articles
+    Then I click to first article
+    #Then I write a comment
+    
     
  
