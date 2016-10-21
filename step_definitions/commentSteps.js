@@ -6,8 +6,14 @@ var steps=function(){
     this.When(/^I search '(.+)' in articles$/,function(text){
         return this.homePage.find(text);
     });
-    this.Then(/^I click to first article$/,function(text){
-        return console.log(this.homePage.gotoArticle());
+    this.Then(/^I click to first article$/,function(){
+        return this.homePage.gotoArticle();          
     });
+    this.Then(/^I write a comment$/,function(){
+        return  this.homePage.writeComment();
+    });
+    this.Then(/^I log out$/, function(){
+        return this.homePage.logout();
+    })
 };
 module.exports=steps;

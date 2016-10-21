@@ -16,7 +16,8 @@ Feature: Habrahabr
     Given I am on publications page
     When I search 'javascript' in articles
     Then I click to first article
-    #Then I write a comment
+    Then I write a comment
+    Then I log out
     
     
  
