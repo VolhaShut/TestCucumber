@@ -1,25 +1,26 @@
 exports.config={
-		seleniumAddress: 'http://localhost:4444/wd/hub',
 		getPageTimeout: 10000,
 		allScriptsTimeout: 10000,
-		capabilities: {
-			'browserName': 'chrome',
-				timeout : 100000
-		},
+		 capabilities: {
+			'browserName': process.env.BROWSER||'firefox',
+		 	"firefox_binary": "/home/olga/firefox45/firefox-bin",
+			 chromeOptions : {
+                args: [process.env.VIEW||'--window-size=1280,800']
+            }
 
+		 },
 		framework: 'custom',
 		frameworkPath: require.resolve('protractor-cucumber-framework'),
-		
-		specs:['features/*.feature'],
-
+		specs:['test/features/*.feature'],
 		cucumberOpts:{
 			require:[
-				'support/world.js',
-				'step_definitions/*.js'
-				
+				'test/support/world.js',
+				'test/step_definitions/*.js'
 			],
-		 format:'pretty'
-	},
+            //tags:[process.env.TAGS],
+		 	format:'pretty'
+		},
+
 
 	onPrepare:function(){
 		var chai=require('chai');
@@ -27,4 +28,43 @@ exports.config={
 			expect=chai.expect;
 			chai.use(chaiAsPromised);
 	}
+
+    		//  multiCapabilities: [
+        //  {
+        //     name: 'firefox_desktop',
+        //     browserName: 'firefox',
+        //     firefox_binary: "/home/olga/firefox45/firefox-bin",
+		// 	chromeOptions : {
+        //         args: ['--window-size=1280,800']
+        //     }
+        // },
+        // {
+        //     name: 'chrome_mobile',
+        //     browserName: 'chrome',
+        //     chromeOptions : {
+        //         args: ['--window-size=500,800']
+        //     }
+        // },
+        // {
+        //     name: 'chrome_tablet_portrait',
+        //     browserName: 'chrome',
+        //     chromeOptions : {
+        //         args: ['--window-size=768,1024']
+        //     }
+        // }
+        // {
+        //     name: 'chrome_tablet_landscape',
+        //     browserName: 'chrome',
+        //     chromeOptions : {
+        //         args: ['--window-size=1024,768']
+        //     }
+        // },
+        // {
+        //     name: 'chrome_desktop',
+        //     browserName: 'chrome',
+        //     chromeOptions : {
+        //         args: ['--window-size=1280,800']
+        //     }
+        // }
+//],
 };
