@@ -3,7 +3,7 @@ Feature: Habrahabr
   I want to visit the startpage
   So that I can access the various features on offer
 
-  #@important
+    @important
   Scenario: Visit page
     Given I am on website page
     When I click on Login button
@@ -13,13 +13,18 @@ Feature: Habrahabr
     Then I set up avatar in profile
     Then I go to publications page
 
-    #@art
-  Scenario: Write comment
+    @art
+  Scenario Outline: Write comment
     Given I am on publications page
-    When I search 'Новости онлайн-курсов Mail.Ru Group на Stepik' in articles
+    When I search '<textsearch>' in articles
     Then I click to first article
    # Then I write a comment
-    Then I log out
+
+
     
-    
+    Examples:
+        | textsearch                                    |
+        |Новости онлайн-курсов Mail.Ru Group на Stepik  |
+        |JavaScript                                     |
+        |Программа                                      |
  

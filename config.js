@@ -17,7 +17,7 @@ exports.config={
 				'test/support/world.js',
 				'test/step_definitions/*.js'
 			],
-            //tags:[process.env.TAGS],
+            tags:process.env.TAGS||['@important'],
 		 	format:'pretty'
 		},
 

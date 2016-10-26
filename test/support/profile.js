@@ -2,6 +2,7 @@ var path = require('path');
 var Profile=function(){
     this.EC=protractor.ExpectedConditions;
     this.getUserName=function(){
+        browser.wait(this.EC.visibilityOf($('.author-info__nickname')), 15000); 
         return element(by.css('.author-info__nickname')).getText();
     },
     this.changeProfile=function(){
