@@ -1,3 +1,4 @@
+var Menu=require('../support/menu.js');
 var HomePage={
     logoProfile:'.btn.btn_x-large.btn_navbar_user-dropdown',
     profileButton:'.dropdown__user-info.user-info',
@@ -44,6 +45,6 @@ var HomePage={
     },
       
 };
-// HomePage=Object.assign(Menu,HomePage);   
+Object.assign(HomePage,Menu);   
 
 module.exports=HomePage;
