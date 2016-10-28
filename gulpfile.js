@@ -1,19 +1,22 @@
 var gulp = require('gulp'),
-runSequence = require('run-sequence'),
-protractor=require('gulp-protractor').protractor;
-view=require('./test/profile/view');
-capabilities=require('./test/profile/capabilities'),
- util = require('gulp-util');
+    //runSequence = require('run-sequence'),
+    protractor=require('gulp-protractor').protractor;
+    view=require('./test/profile/view');
+    capabilities=require('./test/profile/capabilities'),
+    util = require('gulp-util');
 
 var exec = require('child-process-promise').exec;
 
-gulp.task('cmd',function(){
-    var promises=[];
-    var f1 = function(browser,view,tag){
-        process.env.BROWSER=browser;
-        process.env.VIEW=view;
-        process.env.TAGS=tag;
-        return exec('gulp protractor')
+gulp.task('stream',function(){
+    var steams=util.env.streams?util.env.streams:2,
+        browsersStr = util.env.browsers ? util.env.browsers : 'chrome/firefox',
+        viewsStr = util.env.views ? util.env.views : 'mobile/desktop',
+        browsers=browsersStr.split('/'),
+        views=viewsStr.split('/'),
+        promises=[];
+
+    var f1 = function(browser,viewmodel,tag){
+        return exec('gulp test --browser='+browser+' --view='+viewmodel)
             .then(function (results) {
                 console.log(results.stdout);
             })
@@ -21,46 +24,26 @@ gulp.task('cmd',function(){
                 console.error('ERROR: ',err.stdout);
             });
     };
-    promises.push(f1('chrome',view.tabletP,view.tabletPTag));
-    promises.push(f1('firefox',view.desktop,view.desktopTag));
-    promises.push(f1('chrome',view.mobile,view.mobileTag));
+   
+    for (var i=0;i<steams;i++){
+       promises.push(f1(browsers[i],views[i]));
+    };
 
-   return  Promise.all([promises]);
-    
+   return  Promise.all([promises]);    
 
 });
 
-gulp.task('protractor', function() {
-    var viewmodel;
-    util.env.browser?process.env.BROWSER=util.env.browser:process.env.BROWSER;
-    util.env.view?viewmodel=util.env.view:process.env.VIEW;
-    switch(viewmodel){
-             case "tabletP":
-                  process.env.VIEW=view.tabletP;
-             break;
-             case "desktop":
-                  process.env.VIEW=view.desktop;   
-             break;
-             case "mobile":
-                  process.env.VIEW=view.mobile;    
-             break;
-             case "tabletL":
-                  process.env.VIEW=view.tabletL;     
-             break;
+gulp.task('test', function() {
 
-    }
+    util.env.browser?process.env.BROWSER=util.env.browser:process.env.BROWSER;
+    util.env.view?view.getViewModel(util.env.view):process.env.VIEW;    
     console.log(process.env.BROWSER);
     console.log(process.env.VIEW);
     console.log(process.env.TAGS);
     return gulp.src(['./*/*.js'])
         .pipe(protractor({
-            'configFile': "config.js",
-            'autoStartStopServer': false
+            'configFile': "config.js"
             }))  
 });
 
 
-gulp.task('test', function(){
-    runSequence(
-        'cmd');
-});
